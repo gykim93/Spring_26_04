@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -7,49 +12,46 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UsrHomeController {
 
-	int count;
-
-	public UsrHomeController() {
-		count = 0;
-	}
-
-	@RequestMapping("/usr/home/setCountValue")
+	@RequestMapping("/usr/home/getList")
 	@ResponseBody
-	public String setCountValue(int value) {
-		this.count = value;
-		return "count 값" + value + "(으)로 초기화";
+	public List<String> getList() {
+		List<String> list = new ArrayList<>();
+		list.add("철수");
+		list.add("영수");
+		
+		return list;
 	}
-
-	@RequestMapping("/usr/home/setCount")
+	@RequestMapping("/usr/home/getMap")
 	@ResponseBody
-	public String setCount() {
-		count = 0;
-		return "count 값 0으로 초기화";
+	public Map<String, Object> getMap() {
+		Map<String,Object> map = new HashMap<>();
+		map.put("철수의 나이 ", 12);
+		map.put("영수의 나이: ", 13);
+		
+		return map;
+	}	
+	
+	@RequestMapping("/usr/home/getDouble")
+	@ResponseBody
+	public double getDouble() {
+		return 3.14;
+	}	
+	
+	@RequestMapping("/usr/home/getBoolean")
+	@ResponseBody
+	public boolean getBoolean() {
+		return true;
+	}	
+	
+	@RequestMapping("/usr/home/getString")
+	@ResponseBody
+	public String getString() {
+		return "aaaaaa";
 	}
-
-	@RequestMapping("/usr/home/getCount")
+	
+	@RequestMapping("/usr/home/getInt")
 	@ResponseBody
-	public int getCount() {
-		return count++;
-	}
-
-	@RequestMapping("/usr/home/main")
-	@ResponseBody
-	public String showMain() {
-		return "안녕하세요";
-	}
-
-	@RequestMapping("/usr/home/main2")
-	@ResponseBody
-	public String showMain2() {
-		return "잘가";
-	}
-
-	@RequestMapping("/usr/home/main3")
-	@ResponseBody
-	public int showMain3() {
-		int a = 1;
-		int b = 2;
-		return a + b;
+	public int getInt() {
+		return 99;
 	}
 }
