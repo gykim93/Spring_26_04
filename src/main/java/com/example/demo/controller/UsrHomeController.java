@@ -1,27 +1,39 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.example.demo.vo.Article;
 
 @Controller
 public class UsrHomeController {
-	@RequestMapping("/usr/home/getArticle")
+	int lastArticleId;
+	List<Article> articles;
+
+	public UsrHomeController() {
+		articles = new ArrayList<>();
+		lastArticleId = 0;
+	}
+
+	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public Article getArticle() {
-		Article article = new Article(1, "제목1", "내용1");
-		
+	public Article doAdd(String title, String body) {
+		int id = lastArticleId + 1;
+
+		Article article = new Article(id, title, body);
+		articles.add(article);
+		lastArticleId++;
+
 		return article;
 	}
-}
-@AllArgsConstructor
-@Data
-class Article{
 
-	int id;
-	String title;
-	String body;
+	@RequestMapping("/usr/article/getArticles")
+	@ResponseBody
+	public List<Article> getArticles() {
+		return articles;
+	}
 }
