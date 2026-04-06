@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.vo.Article;
 
 @Controller
-public class UsrHomeController {
+public class UsrArticleController {
 	int lastArticleId;
 	List<Article> articles;
-
-	public UsrHomeController() {
+	
+	//생성자
+	public UsrArticleController() {
 		articles = new ArrayList<>();
 		lastArticleId = 0;
 
@@ -42,6 +43,29 @@ public class UsrHomeController {
 
 	}
 
+	private Article getArticleById(int id) {
+		for (Article article: articles) {
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
+	}
+	
+	//액션메서드
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public String deDelete(int id) {
+		Article article = getArticleById(id);
+		
+		if (article == null) {
+			return id + "번 글은 없습니다.";
+		}
+		articles.remove(article);
+		
+		return id + "번 글이 삭제되었습니다";
+	}
+	
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
