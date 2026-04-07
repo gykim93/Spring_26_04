@@ -52,6 +52,7 @@ public class UsrArticleController {
 	}
 
 	// 게시글 삭제
+	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String deDelete(int id) {
@@ -77,6 +78,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public List<Article> getArticles() {
-		return articleService.articles;
+		return articleService.getArticles();
 	}
 }
