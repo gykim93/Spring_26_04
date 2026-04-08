@@ -8,51 +8,90 @@ USE `Spring_26_04`;
 CREATE TABLE `article` (
     `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `regDate` DATETIME NOT NULL,
+    `updateDate` DATETIME NOT NULL,
     `title` CHAR(100) NOT NULL,
     `body` CHAR(100) NOT NULL
 );
-
+/*
+- id
+- regDate
+- updateDate
+- loginId
+- loginPw
+- name
+- nickname
+- cellphoneNum
+- email
+*/
 # 회원 테이블 생성
 CREATE TABLE `member`(
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`updateDate` DATETIME NOT NULL,
 	`regDate` DATETIME NOT NULL,
 	`loginId` CHAR(100) NOT NULL,
 	`loginPw` CHAR(100) NOT NULL,
-	`name` CHAR(100) NOT NULL
+	`name` CHAR(100) NOT NULL,
+	nickname CHAR(20) NOT NULL,
+	cellphoneNum CHAR(20) NOT NULL,
+	email CHAR(20) NOT NULL
 );
 
 # 게시글 데이터 삽입
 INSERT INTO `article`
 SET `regDate` = NOW(),
+	`updateDate` = NOW(),
 	`title` = '제목1',
 	`body` = '내용1';
 	
 INSERT INTO `article`
 SET `regDate` = NOW(),
+	`updateDate` = NOW(),
 	`title` = '제목2',
 	`body` = '내용2';
 
 INSERT INTO `article`
 SET `regDate` = NOW(),
+	`updateDate` = NOW(),
 	`title` = '제목3',
 	`body` = '내용3';
 
 # 회원 데이터 삽입
 INSERT INTO `member`
 SET `regDate` = NOW(),
+	`updateDate` = NOW(),
+	`loginId` = 'admin',
+	`loginPw` = 'admin',
+	`name` = '관리자',
+	nickname = '관리자_별명',
+	cellphoneNum = '01012341234',
+	email = 'abc@gmail.com';
+
+INSERT INTO `member`
+SET `regDate` = NOW(),
+	`updateDate` = NOW(),
 	`loginId` = 'test1',
 	`loginPw` = 'test1',
-	`name` = '회원1';
+	`name` = '회원1',
+	nickname = '회원1_별명',
+	cellphoneNum = '01012345678',
+	email = 'def@gmail.com';
 	
 INSERT INTO `member`
 SET `regDate` = NOW(),
+	`updateDate` = NOW(),
 	`loginId` = 'test2',
 	`loginPw` = 'test2',
-	`name` = '회원2';	
+	`name` = '회원2',
+	nickname = '회원2_별명',
+	cellphoneNum = '01045671234',
+	email = 'eeee@gmail.com';	
+	
 
 SELECT * FROM `article`;
 	
 SELECT * FROM `member`;
+
+SELECT LAST_INSERT_ID();
 
 # 테이블 구조확인
 DESC article;
@@ -140,6 +179,6 @@ FROM article;
 SELECT *
 FROM `member`;
 
-update article
-set memberId = 1
-where memberId not in (select id from `member`);
+UPDATE article
+SET memberId = 1
+WHERE memberId NOT IN (SELECT id FROM `member`);

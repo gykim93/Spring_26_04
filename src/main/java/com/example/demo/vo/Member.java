@@ -7,20 +7,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Article{
-	
-	public Article(String title, String body) {
-		this.title = title;
-		this.body = body;
-	}
-	
+public class Member {
 	private int id;
 	private LocalDateTime regDate;
-	private LocalDateTime updateDate;
-	private String title;
-	private String body;
+	private LocalDateTime uodateDate;
+	private String loginId;
+	private String loginPw;
+	private String name;
+	private String nickname;
+	private String cellphoneNum;
+	private String email;
 }
