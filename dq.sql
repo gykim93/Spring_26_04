@@ -30,10 +30,13 @@ CREATE TABLE `member`(
 	`regDate` DATETIME NOT NULL,
 	`loginId` CHAR(100) NOT NULL,
 	`loginPw` CHAR(100) NOT NULL,
+	`authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)',
 	`name` CHAR(100) NOT NULL,
 	nickname CHAR(20) NOT NULL,
 	cellphoneNum CHAR(20) NOT NULL,
-	email CHAR(20) NOT NULL
+	email CHAR(20) NOT NULL,
+	delStatus TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
+	delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
 # 게시글 데이터 삽입
@@ -61,6 +64,7 @@ SET `regDate` = NOW(),
 	`updateDate` = NOW(),
 	`loginId` = 'admin',
 	`loginPw` = 'admin',
+	`authLevel` = 7,
 	`name` = '관리자',
 	nickname = '관리자_별명',
 	cellphoneNum = '01012341234',
@@ -93,24 +97,7 @@ SELECT * FROM `member`;
 
 SELECT LAST_INSERT_ID();
 
-# 테이블 구조확인
-DESC article;
-
-# article 테이블 => memberId 컬럼 추가.
-ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL AFTER regDate;
-
-
-# article 테이블 => memberId 값 추가
-UPDATE article
-SET memberId = 1
-WHERE id IN (1,2);
-
-UPDATE article
-SET memberId = 2
-WHERE id = 3;
-
-DESC `member`;
-
+/*
 # 테스트
 SELECT *
 FROM article
@@ -124,7 +111,6 @@ SELECT A.*, M.name AS e_w
 FROM article AS A
 INNER JOIN `member` AS M
 ON A.memberId = M.id;
-
 # article 생성(대량) => 해당 쿼리 실행 시 article 생성
 INSERT INTO article
 SET regDate = NOW(),
@@ -179,6 +165,7 @@ FROM article;
 SELECT *
 FROM `member`;
 
-UPDATE article
-SET memberId = 1
-WHERE memberId NOT IN (SELECT id FROM `member`);
+update article
+set memberId = 1
+where memberId not in (select id from `member`);
+*/
