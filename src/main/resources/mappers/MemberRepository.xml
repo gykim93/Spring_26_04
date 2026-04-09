@@ -23,7 +23,12 @@
 		SELECT
 		LAST_INSERT_ID();
 	</select>
-
+	<select id="getMemberByLoginId" parameterType="String"
+		resultType="com.example.demo.vo.Member">
+		SELECT * FROM `member`
+		WHERE LoginId = #{LoginId}
+	</select>	
+	
 	<select id="getMemberById" parameterType="int"
 		resultType="com.example.demo.vo.Member">
 		SELECT * FROM `member`
