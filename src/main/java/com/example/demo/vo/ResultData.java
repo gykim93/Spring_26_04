@@ -30,4 +30,7 @@ public class ResultData {
 	public boolean isFail() {
 		return !isSuccess();
 	}
+	public static ResultData newData(ResultData rd, Object newData) {
+		return from(rd.getResultCode(), rd.getMsg(), newData);
+	}
 }

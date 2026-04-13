@@ -19,7 +19,10 @@
 		email = #{email}
 	</insert>
 
-
+	<select id="getLastInsertId" parameterType="int">
+		SELECT
+		LAST_INSERT_ID();
+	</select>
 	<select id="getMemberByLoginId" parameterType="String"
 		resultType="com.example.demo.vo.Member">
 		SELECT * FROM `member`
