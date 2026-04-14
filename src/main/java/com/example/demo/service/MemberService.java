@@ -17,10 +17,11 @@ public class MemberService {
 		this.memberRepository = memberRepository;
 	}
 
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email) {
 		Member existsMember = getMemberByLoginId(loginId);
 		System.out.println("existsMember : " + existsMember);
-		
+
 		if (existsMember != null) {
 			return ResultData.from("F-7", Ut.f("이미 사용중인 loginId(%s) 입니다.", loginId));
 		}
@@ -29,7 +30,7 @@ public class MemberService {
 			return ResultData.from("F-8", Ut.f("이미 사용중인 name(%s)과 email(%s)입니다.", name, email));
 		}
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		
+
 		int id = memberRepository.getLastInsertId();
 		return ResultData.from("S-1", "회원가입 성공", id);
 	}
