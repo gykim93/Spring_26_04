@@ -97,75 +97,35 @@ SELECT * FROM `member`;
 
 SELECT LAST_INSERT_ID();
 
-/*
+# 테이블 구조확인
+DESC article;
+
+# article 테이블 => memberId 컬럼 추가.
+ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL AFTER regDate;
+
+
+# article 테이블 => memberId 값 추가
+UPDATE article
+SET memberId = 1
+WHERE id IN (1,2);
+
+UPDATE article
+SET memberId = 2
+WHERE id = 3;
+
+DESC `member`;
+
 # 테스트
 SELECT *
 FROM article
 ORDER BY id DESC;
 
-SELECT *
-FROM `member`
-WHERE loginId = 'test3';
-
-SELECT A.*, M.name AS e_w
-FROM article AS A
-INNER JOIN `member` AS M
-ON A.memberId = M.id;
-# article 생성(대량) => 해당 쿼리 실행 시 article 생성
-INSERT INTO article
-SET regDate = NOW(),
-/*
-title = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
-`body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
-*/
-memberId = CEILING(RAND() * 2),
-title = CONCAT('제목', RAND()),
-`body` = CONCAT('내용', RAND());
-
-# member 생성(대량) => 해당 쿼리 실행 시 member 생성
-INSERT INTO MEMBER
-SET regDate = NOW(),
-loginId = CONCAT('loginId', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
-loginPw = CONCAT('loginPw', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
-`name` = CONCAT('name', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
-
-
-
-SELECT * FROM `member` WHERE loginId = 'test1';
-
-SELECT COUNT(*) > 0
-FROM `member`
-WHERE loginId = 'test1';
-
-SELECT COUNT(*) > 0
-FROM `member`
-WHERE loginId = 'test3';
-
-SELECT SUBSTRING(RAND() * 1000 FROM 1 FOR 2);
+ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL AFTER regDate;
 
 UPDATE article
-SET updateDate = NOW(),
-title = '',
-`body` = 'test1'
-WHERE id = 1;
-
-SELECT COUNT(*)
-FROM article
-WHERE id = 5;
-
+SET memberId = 2
+WHERE id IN (1,2);
 
 UPDATE article
-SET updateDate = NOW(),
-`body` = 'test3'
+SET memberId = 3
 WHERE id = 3;
-
-SELECT *
-FROM article;
-
-SELECT *
-FROM `member`;
-
-update article
-set memberId = 1
-where memberId not in (select id from `member`);
-*/

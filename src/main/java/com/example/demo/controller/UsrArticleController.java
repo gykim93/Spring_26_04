@@ -64,8 +64,21 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(int id) {
+	public ResultData<Integer> doDelete(HttpSession session, int id) {
 
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+		
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 삭제");
+		}
+		
+		
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
