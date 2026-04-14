@@ -45,7 +45,7 @@ public class UsrArticleController {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
-		
+
 		if (isLogined == false) {
 			return ResultData.from("F-A", "로그인 후 수정");
 		}
@@ -73,12 +73,11 @@ public class UsrArticleController {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
-		
+
 		if (isLogined == false) {
 			return ResultData.from("F-A", "로그인 후 삭제");
 		}
-		
-		
+
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
@@ -100,8 +99,18 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(String title, String body) {
+	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
+		boolean isLogined = false;
+		int loginedMemberId = 0;
 
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 글작성");
+		}
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목써");
 		}
@@ -109,13 +118,13 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용써");
 		}
 
-		ResultData writeArticleRd = articleService.writeArticle(title, body);
+		ResultData doWriteRd = articleService.writeArticle(loginedMemberId, title, body);
 
-		int id = (int) writeArticleRd.getData1();
+		int id = (int) doWriteRd.getData1();
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
+		return ResultData.newData(doWriteRd, article);
 	}
 
 }
