@@ -10,17 +10,48 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrMemberController {
 
 	@Autowired
 	private MemberService memberService;
 
+	@RequestMapping("/usr/member/doLogin")
+	@ResponseBody
+	public ResultData<Member> doLogin(HttpSession session, String loginId, String loginPw) {
+		boolean isLogined = false;
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+		if (isLogined) {
+			return ResultData.from("F-A", "이미 로그인중");
+		}
+		if (Ut.isEmptyOrNull(loginId)) {
+			return ResultData.from("F-1", "loginId를 입력해");
+		}
+		if (Ut.isEmptyOrNull(loginPw)) {
+			return ResultData.from("F-2", "loginPw를 입력해");
+		}
+
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member == null) {
+			return ResultData.from("F-3", Ut.f("%s는 없는 아이디 입니다.", loginId));
+		}
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", "비밀번호 틀림");
+		}
+		session.setAttribute("loginedMemberId", member.getId());
+		return ResultData.from("S-1", Ut.f("%s님 환영합니다!", member.getNickname()), member);
+	}
+
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
 			String email) {
-		
+
 		if (Ut.isEmptyOrNull(loginId)) {
 			return ResultData.from("F-1", "loginId 입력");
 		}
@@ -40,9 +71,8 @@ public class UsrMemberController {
 			return ResultData.from("F-6", "cellphoneNum 입력");
 		}
 
-		
 		ResultData doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		
+
 		if (doJoinRd.isFail()) {
 			return doJoinRd;
 		}
