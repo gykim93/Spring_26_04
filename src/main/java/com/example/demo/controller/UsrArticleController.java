@@ -56,10 +56,18 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없음", id));
 		}
 
+		
+		ResultData loginedMemberCanModifyRd = articleService.loginedMemberCanModify(loginedMemberId, article);
+		
+		if (loginedMemberCanModifyRd.isFail()) {
+			return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg());
+		}
+		
+		
 		articleService.modifyArticle(id, title, body);
 		article = articleService.getArticleById(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 수정됨", id), article);
+		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg());
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -84,6 +92,10 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없음", id));
 		}
 
+		if (article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-A2", "권한없음");
+		}
+		
 		articleService.deleteArticle(id);
 
 		return ResultData.from("S-1", Ut.f("%d번 게시글은 삭제", id), id);
@@ -100,6 +112,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
+		
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 
@@ -111,6 +124,7 @@ public class UsrArticleController {
 		if (isLogined == false) {
 			return ResultData.from("F-A", "로그인 후 글작성");
 		}
+		
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목써");
 		}

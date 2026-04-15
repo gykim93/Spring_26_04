@@ -18,13 +18,12 @@ public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
 
-	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public ResultData doLogout(HttpSession session) {
-		
+
 		boolean isLogined = false;
-		
+
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 		}
@@ -32,11 +31,10 @@ public class UsrMemberController {
 			return ResultData.from("F-A", "이미 로그아웃중");
 		}
 		session.removeAttribute("loginedMemberId");
-		
+
 		return ResultData.from("S-1", "로그아웃 됨");
 	}
-	
-	
+
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData<Member> doLogin(HttpSession session, String loginId, String loginPw) {
@@ -68,8 +66,16 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-			String email) {
+	public ResultData<Member> doJoin(HttpSession session, String loginId, String loginPw, String name, String nickname,
+			String cellphoneNum, String email) {
+
+		boolean isLogined = false;
+		if (session.getAttribute("loginedMember") != null) {
+			isLogined = true;
+		}
+		if (isLogined) {
+			return ResultData.from("F-A", "이미 로그인중");
+		}
 
 		if (Ut.isEmptyOrNull(loginId)) {
 			return ResultData.from("F-1", "loginId 입력");

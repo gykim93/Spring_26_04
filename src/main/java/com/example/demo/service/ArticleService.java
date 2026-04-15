@@ -40,6 +40,13 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시글 작성", id), id);
 	}
 
+	public ResultData loginedMemberCanModify(int loginedMemberId, Article article) {
+		if (article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-A2", Ut.f("%d번 게시글에 대한 권한없음", article.getId()));
+		}
+		return ResultData.from("S-1", Ut.f("%d번 게시글을 수정", article.getId()));
+	}
+	
 	public void deleteArticle(int id) {
 		articleRepository.deleteArticle(id);
 	}
