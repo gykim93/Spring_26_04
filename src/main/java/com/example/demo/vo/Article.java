@@ -11,16 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class Article{
-	
-//	public Article(String title, String body) {
-//		this.title = title;
-//		this.body = body;
-//	}
-	
+public class Article {
+
 	private int id;
-	private LocalDateTime regDate;
-	private LocalDateTime updateDate;
+	private String regDate;
+	private String updateDate;
 	private int memberId;
 	private String title;
 	private String body;
