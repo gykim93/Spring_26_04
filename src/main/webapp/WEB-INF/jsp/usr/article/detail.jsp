@@ -24,8 +24,8 @@
 					<td style="text-algin: ceenter;">${article.updateDate.substring(0,10)}</td>
 				</tr>
 				<tr>
-					<th style="text-align: center;">Member ID</th>
-					<td style="text-algin: ceenter;">${article.memberId}</td>
+					<th style="text-align: center;">Writer</th>
+					<td style="text-algin: ceenter;">${article.extra__writer}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Title</th>
@@ -39,6 +39,8 @@
 		</table>
 		<div class="btns">
 			<button type="button" onClick="history.back();">뒤로가기</button>
+			<a href="../article/modify?id=${article.id }">수정</a>
+			<a href="../article/doDelete?id=${article.id }">삭제</a>
 		</div>
 	</div>
 </section>
