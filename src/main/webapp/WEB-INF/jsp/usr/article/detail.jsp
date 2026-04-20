@@ -39,8 +39,11 @@
 		</table>
 		<div class="btns">
 			<button type="button" onClick="history.back();">뒤로가기</button>
-			<a href="../article/modify?id=${article.id }">수정</a>
-			<a href="../article/doDelete?id=${article.id }">삭제</a>
+			
+			<c:if test="${article.userCanModify }">
+				<a href="../article/moidfy?id=${article.id }">수정</a>
+			</c:if>
+			<a href="../article/doDelete?id=${article.id }">수정</a>
 		</div>
 	</div>
 </section>

@@ -18,18 +18,9 @@ public class ArticleService {
 
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-//		makeTestData();
 	}
 
-	// 서비스메서드
-//	private void makeTestData() {
-//		for (int i = 1; i <= 10; i++) {
-//			String title = "제목 " + i;
-//			String body = "내용 " + i;
-//
-//			articleRepository.writeArticle(title, body);
-//		}
-//	}
+
 
 	public ResultData writeArticle(int loginedMemberId, String title, String body) {
 
@@ -40,7 +31,7 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시글 작성", id), "이번에 쓰여진 글의 id", id);
 	}
 
-	public ResultData loginedMemberCanModify(int loginedMemberId, Article article) {
+	public ResultData userCanModify(int loginedMemberId, Article article) {
 		if (article.getMemberId() != loginedMemberId) {
 			return ResultData.from("F-A2", Ut.f("%d번 게시글에 대한 권한없음", article.getId()));
 		}
@@ -51,6 +42,22 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
+	public Article getForPrintArticle(int loginedMemberId, int id) {
+		Article article = articleRepository.getForPrintArticle(id);
+		
+		updateForPrintData(loginedMemberId, article);
+		
+		return article;
+	}
+	
+	private void updateForPrintData(int loginedMemberId, Article article) {
+		if (article == null) {
+			return;
+		}
+		ResultData userCanModifyRd = userCanModify(loginedMemberId, article);
+		article.setUserCanModify(userCanModifyRd.isSuccess());
+	}
+	
 	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
 
