@@ -31,7 +31,7 @@ html>body {
 	font-family: 'GMarketSans', sans;
 }
 
-header>div>ul>li{
+header>div>ul>li {
 	margin-right: 30px;
-	text-underline-position:under;
+	text-underline-position: under;
 }
