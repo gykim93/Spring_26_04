@@ -13,37 +13,38 @@
 			<tbody>
 				<tr>
 					<th style="text-align: center;">ID</th>
-					<td style="text-algin: ceenter;">${article.id}</td>
+					<td style="text-align: center;">${article.id}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Registration Date</th>
-					<td style="text-algin: ceenter;">${article.regDate.substring(0,10)}</td>
+					<td style="text-align: center;">${article.regDate.substring(0,10)}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Update Date</th>
-					<td style="text-algin: ceenter;">${article.updateDate.substring(0,10)}</td>
+					<td style="text-align: center;">${article.updateDate.substring(0,10)}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Writer</th>
-					<td style="text-algin: ceenter;">${article.extra__writer}</td>
+					<td style="text-algin: center;">${article.extra__writer}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Title</th>
-					<td style="text-algin: ceenter;">${article.title}</td>
+					<td style="text-align: center;">${article.title}</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Body</th>
-					<td style="text-algin: ceenter;">${article.body}</td>
+					<td style="text-align: center;">${article.body}</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="btns">
 			<button type="button" onClick="history.back();">뒤로가기</button>
-			
 			<c:if test="${article.userCanModify }">
 				<a href="../article/moidfy?id=${article.id }">수정</a>
 			</c:if>
-			<a href="../article/doDelete?id=${article.id }">수정</a>
+			<c:if test="${article.userCanDelete }">
+				<a href="../article/doDelete?id=${article.id }">삭제</a>
+			</c:if>
 		</div>
 	</div>
 </section>

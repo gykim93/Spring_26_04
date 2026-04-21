@@ -27,17 +27,16 @@ public class UsrArticleController {
 
 		boolean isLogined = false;
 		int loginedMemberId = 0;
-		
+
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 
 		Article article = articleService.getForPrintArticle(loginedMemberId, id);
-		
-		model.addAttribute("article",article);
-		
-		
+
+		model.addAttribute("article", article);
+
 		return "usr/article/detail";
 	}
 
@@ -63,15 +62,15 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없음", id));
 		}
 
-		
 		ResultData userCanModifyRd = articleService.userCanModify(loginedMemberId, article);
-		
+
 		if (userCanModifyRd.isFail()) {
-			return ResultData.from(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "이번에 수정된 글", article);
+			return userCanModifyRd;
 		}
-		
-		
-		articleService.modifyArticle(id, title, body);
+
+		if (userCanModifyRd.isSuccess()) {
+			articleService.modifyArticle(id, title, body);
+		}
 		article = articleService.getArticleById(id);
 
 		return ResultData.from(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg());
@@ -99,13 +98,16 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없음", id));
 		}
 
-		if (article.getMemberId() != loginedMemberId) {
-			return ResultData.from("F-A2", "권한없음");
+		ResultData userCanDeleteRd = articleService.userCanDelete(loginedMemberId, article);
+		if (userCanDeleteRd.isFail()) {
+			return userCanDeleteRd;
 		}
-		
-		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글은 삭제", id),"이번에 삭제된 게시글의 id", id);
+		if (userCanDeleteRd.isSuccess()) {
+			articleService.deleteArticle(id);
+		}
+
+		return ResultData.from("S-1", Ut.f("%d번 게시글은 삭제", id), "이번에 삭제된 게시글의 id", id);
 	}
 
 	@RequestMapping("/usr/article/list")
@@ -119,7 +121,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
-		
+
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 
@@ -131,7 +133,7 @@ public class UsrArticleController {
 		if (isLogined == false) {
 			return ResultData.from("F-A", "로그인 후 글작성");
 		}
-		
+
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목써");
 		}
@@ -145,7 +147,7 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.newData(doWriteRd, "이번에 작성된 글 / 새로 추가된 article",article);
+		return ResultData.newData(doWriteRd, "이번에 작성된 글 / 새로 추가된 article", article);
 	}
 
 }
