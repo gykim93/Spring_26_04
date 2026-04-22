@@ -21,20 +21,14 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class UsrArticleController {
 
-	private final DemoApplication demoApplication;
-	
 	@Autowired
 	private ArticleService articleService;
 
-	UsrArticleController(DemoApplication demoApplication){
-		this.demoApplication = demoApplication;
-	}
-	
 	// 액션메서드
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
 
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
@@ -46,7 +40,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
 
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 후 수정");
@@ -75,9 +69,9 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
-			return Ut.jsReplace("F-A", "로그인 후 삭제","../member/login");
+			return Ut.jsReplace("F-A", "로그인 후 삭제", "../member/login");
 		}
 
 		Article article = articleService.getArticleById(id);
