@@ -24,17 +24,17 @@
 			<a href="/">LOGO</a>
 			<div class="flex-grow"></div>
 			<ul class="flex gap-x-10">
-				<li class="hover:underline">
-					<a href="/">HOME</a>
-				</li>
-				<li class="hover:underline">
-					<a href="../article/list">LIST</a>
-				</li>				
-				<li class="hover:underline">
-					<a href="../member/login">LOGIN</a>
-				</li>								
+				<li class="hover:underline"><a href="/">HOME</a></li>
+				<li class="hover:underline"><a href="../article/list">LIST</a></li>
+				<c:if test="${!rq.isLogined() }">
+					<li class="hover:underline"><a href="../member/login">LOGIN</a></li>
+				</c:if>
+				<c:if test="${rq.isLogined() }">
+					<li class="hover:underline"><a onclick="if(confirm('로그아웃 하시겠습니까?') == false) return false;"
+						href="../member/doLogout">LOGOUT</a>
+				</c:if>
 			</ul>
 		</div>
 	</header>
-	
+
 	<h1>${pageTitle }</h1>
