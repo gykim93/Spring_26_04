@@ -9,12 +9,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class BeforeActionInterceptor implements HandlerInterceptor {
+public class NeedLoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object Handler) throws Exception {
-		//System.out.println("실행됨");
-		Rq rq = new Rq(req, resp);
-		req.setAttribute("rq", rq);
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if (!rq.isLogined()) {
+			System.out.println("로그인 하고 사용해야합니다.");
+			
+			rq.printHistoryBack("로그인 하고 사용해야합니다.");
+		}
 		
 		return HandlerInterceptor.super.preHandle(req, resp, Handler);
 

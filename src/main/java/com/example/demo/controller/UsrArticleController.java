@@ -42,10 +42,6 @@ public class UsrArticleController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		if (rq.isLogined() == false) {
-			return ResultData.from("F-A", "로그인 후 수정");
-		}
-
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
@@ -70,9 +66,6 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		if (rq.isLogined() == false) {
-			return Ut.jsReplace("F-A", "로그인 후 삭제", "../member/login");
-		}
 
 		Article article = articleService.getArticleById(id);
 
@@ -110,10 +103,6 @@ public class UsrArticleController {
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
-
-		if (isLogined == false) {
-			return ResultData.from("F-A", "로그인 후 글작성");
 		}
 
 		if (Ut.isEmptyOrNull(title)) {
