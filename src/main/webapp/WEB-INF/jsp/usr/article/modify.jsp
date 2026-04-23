@@ -11,7 +11,7 @@
 	<div class="mx-auto">
 		<form action="../article/doModify" method="POST">
 		<input type="hidden" name="id" value="${article.id }" />
-			<table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+			<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 				<tbody>
 					<tr>
 						<th>ID</th>
@@ -32,13 +32,13 @@
 					<tr>
 						<th>Title</th>
 						<td style="text-align: center;">
-							<input value="${article.title }" required="required" name="title" type="text" autocomplete="off" placeholder"새 제목"/>
+							<input class="input input-neutral input-sm" value="${article.title }" required="required" name="title" type="text" autocomplete="off" placeholder"새 제목"/>
 						</td>
 					</tr>	
 					<tr>
 						<th>Body</th>
 						<td style="text-align: center;">
-							<input value="${article.body }" required="required" name="title" type="text" autocomplete="off" placeholder"새 내용"/>
+							<input class="input input-neutral input-sm" value="${article.body }" required="required" name="title" type="text" autocomplete="off" placeholder"새 내용"/>
 						</td>
 					</tr>
 					<tr>
@@ -51,7 +51,7 @@
 			</table>
 		</form>
 		<div class="btns">
-			<button type="button" onClick="history.back();">뒤로가기</button>
+			<button class="btn btn-outline btn-ghost" type="button" onClick="history.back();">뒤로가기</button>
 			<c:if test="${article.userCanDelete }">
 				<a href="../article/doDelete?id=${article.id }">삭제</a>
 			</c:if>
