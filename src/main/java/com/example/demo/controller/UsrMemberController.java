@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrMemberController {
-
+	@Autowired
+	private Rq rq;
+	
 	@Autowired
 	private MemberService memberService;
 
