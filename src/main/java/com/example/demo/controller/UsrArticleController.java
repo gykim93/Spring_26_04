@@ -121,7 +121,7 @@ public class UsrArticleController {
 			//return rq.historyBackOnView("존재x"); 잘안쓰는방식
 		}
 		
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles(boardId);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("board", board);
