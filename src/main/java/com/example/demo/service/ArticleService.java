@@ -20,9 +20,9 @@ public class ArticleService {
 		this.articleRepository = articleRepository;
 	}
 
-	public ResultData writeArticle(int loginedMemberId, String title, String body) {
+	public ResultData writeArticle(int loginedMemberId, String title, String body, String boardId) {
 
-		articleRepository.writeArticle(loginedMemberId, title, body);
+		articleRepository.writeArticle(loginedMemberId, title, body, boardId);
 
 		int id = articleRepository.getLastInsertId();
 
@@ -80,4 +80,7 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
+	public List<Article> getForPrintArticles(int boardId) {
+		return articleRepository.getForPrintArticles(boardId);
+	}
 }

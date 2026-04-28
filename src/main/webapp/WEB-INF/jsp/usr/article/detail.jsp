@@ -28,6 +28,10 @@
 					<td style="text-algin: center;">${article.extra__writer}</td>
 				</tr>
 				<tr>
+					<th style="text-align: center;">BoardId</th>
+					<td style="text-algin: center;">${article.boardId}</td>
+				</tr>				
+				<tr>
 					<th style="text-align: center;">Title</th>
 					<td style="text-align: center;">${article.title}</td>
 				</tr>
