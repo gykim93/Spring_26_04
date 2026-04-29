@@ -17,6 +17,16 @@
 		body = #{body}
 	</insert>
 
+	<select id="getArticlesCount" parameterType="int">
+		SELECT COUNT(*)
+		FROM article
+		WHERE 1
+		<if test="boardId != 0">
+			AND boardId = #{boardId};
+		</if>
+	</select>
+
+
 	<delete id="deleteArticle" parameterType="int">
 		DELETE FROM article
 		WHERE id = #{id}
@@ -52,15 +62,22 @@
 		WHERE id = #{id}
 	</select>
 
-	<select id="getForPrintArticles" parameterType="int"
+	<select id="getForPrintArticles"
 		resultType="com.example.demo.vo.Article">
 		SELECT A.*, M.nickname AS extra__writer
 		FROM article AS A
-		INNER JOIN `member` AS M
+		INNER JOIN 
+		`member` AS M
 		ON A.memberId = M.id
-		WHERE boardId = #{boardId}
+		WHERE 1
+		<if test="boardId != 0">
+			AND boardId = #{boardId}
+		</if>
 		ORDER BY A.id
 		DESC
+		<if test="limitFrom >= 0">
+			LIMIT #{limitFrom}, #{limitTake}
+		</if>
 	</select>
 
 	<select id="getArticles"
