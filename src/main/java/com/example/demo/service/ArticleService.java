@@ -88,8 +88,8 @@ public class ArticleService {
 		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake);
 	}
 
-	public int getArticlesCount(int boardId) {
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
 
-		return articleRepository.getArticlesCount(boardId);
+		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 }

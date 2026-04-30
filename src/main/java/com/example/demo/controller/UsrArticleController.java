@@ -114,7 +114,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
-			@RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue ="title") String searchKeywordTypeCode,
+			@RequestParam (defaultValue ="") String searchKeyword) {
 
 		Board board = boardService.getBoardById(boardId);
 
@@ -122,7 +124,7 @@ public class UsrArticleController {
 			return rq.historyBackOnView("존재x");
 		}
 
-		int articlesCount = articleService.getArticlesCount(boardId);
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 
 		// 한 페이지에 글 10개씩
 		// 글 20개? => 2page

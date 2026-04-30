@@ -2,11 +2,7 @@ package com.example.demo.repository;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Article;
 
@@ -31,6 +27,6 @@ public interface ArticleRepository {
 
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake);
 	
-	public int getArticlesCount(int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 }
 
