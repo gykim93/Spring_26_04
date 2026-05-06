@@ -45,8 +45,8 @@
 			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount}"/>
 
 			<c:set var="baseUri" value="?boardId=${boardId }"/>				
-			<c:set var="baseUri" value="?boardId=${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode}"/>		
-			<c:set var="baseUri" value="?boardId=${baseUri }&searchKeyword=${searchKeyword}"/>			
+			<c:set var="baseUri" value="${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode}"/>		
+			<c:set var="baseUri" value="${baseUri }&searchKeyword=${searchKeyword}"/>			
 									
 			<c:if test="${startPage > 1}">
 				<a class="join-item btn btn-sm" href="${baseUri }&page=1">1</a>
