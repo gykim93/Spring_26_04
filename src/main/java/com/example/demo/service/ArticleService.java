@@ -12,12 +12,14 @@ import com.example.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
+	private final BoardService boardService;
 
 	@Autowired
 	private ArticleRepository articleRepository;
 
-	public ArticleService(ArticleRepository articleRepository) {
+	public ArticleService(ArticleRepository articleRepository, BoardService boardService) {
 		this.articleRepository = articleRepository;
+		this.boardService = boardService;
 	}
 
 	public ResultData writeArticle(int loginedMemberId, String title, String body, String boardId) {
@@ -80,12 +82,14 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword) {
+	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode,
+			String searchKeyword) {
 
 		int limitFrom = (page - 1) * itemsInAPage;
 		int limitTake = itemsInAPage;
 
-		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
+		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode,
+				searchKeyword);
 	}
 
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
@@ -93,8 +97,16 @@ public class ArticleService {
 		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
-	public void increaseHitCount(int id) {
-		articleRepository.increaseHitCount(id);
+	public ResultData increaseHitCount(int id) {
+		int affectedRow = articleRepository.increaseHitCount(id);
 		
+		
+		System.err.println("affectedRow: " + affectedRow);
+		
+		if (affectedRow == 0) {
+			return ResultData.from("F-1", "해당 게시글은 없음", "id", id);
+		}
+		return ResultData.from("S-1", "조회수 증가", "id", id);
+
 	}
 }
