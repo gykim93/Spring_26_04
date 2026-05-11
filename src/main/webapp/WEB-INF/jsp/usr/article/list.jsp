@@ -43,6 +43,7 @@
 					<th style="text-align: center">Registration date</th>
 					<th style="text-align: center">TITLE</th>
 					<th style="text-align: center">Writer</th>
+					<th style="text-align: center">VIEW</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,6 +53,7 @@
 						<td style="text-align: center">${article.regDate.substring(0,10) }</td>
 						<td style="text-align: center"><a href="detail?id=${article.id}">${article.title }</a></td>
 						<td style="text-align: center">${article.extra__writer }</td>
+						<td style="text-align: center">${article.hitCount }</td>
 					</tr>
 				</c:forEach>
 				<c:if test="${empty articles }">

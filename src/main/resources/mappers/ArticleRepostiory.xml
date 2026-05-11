@@ -68,6 +68,13 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+	<update id="increaseHitCount" parameterType="int">
+		UPDATE article
+		SET hitCount = hitCount + 1
+		WHERE id = #{id}
+	
+	</update>
+
 
 	<select id="getForPrintArticle" parameterType="int"
 		resultType="com.example.demo.vo.Article">

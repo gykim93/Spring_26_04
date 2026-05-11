@@ -151,6 +151,9 @@ UPDATE article
 SET boardId = 3
 WHERE id = 5;
 
+ALTER TABLE article ADD COLUMN hitCount INT UNSIGNED NOT NULL DEFAULT 0 AFTER `body`;
+
+
 DESC article;
 
 # -------------------SELECT 확인용
@@ -168,6 +171,22 @@ SELECT *
 FROM article;
 
 ##===============================###################### 테스트
+SELECT COUNT(*) AS cnt
+FROM article
+WHERE boardId = 1 AND title LIKE '%111%';
+
+
+SELECT COUNT(*) AS cnt
+FROM article
+WHERE boardId = 1 AND `body` LIKE '%111%';
+
+SELECT COUNT(*) AS cnt
+FROM article
+WHERE boardId = 2 AND `body` LIKE '%111%';
+
+SELECT COUNT(*)
+FROM article
+WHERE boardId = 1;
 
 SELECT *
 FROM board
@@ -199,6 +218,7 @@ SELECT CEILING(RAND() * 2);
 INSERT INTO article
 SET regDate = NOW(),
 memberId = CEILING(RAND() * 2),
+boardId = CEILING(RAND() * 3),
 title = CONCAT('제목', RAND()),
 `body` = CONCAT('내용', RAND());
 
